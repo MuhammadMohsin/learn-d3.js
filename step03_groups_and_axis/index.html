@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.17/d3.min.js"></script>
+</head>
+<body>
+
+<script>
+
+    var dataArray = [220, 440, 680, 800, 750, 500];
+
+    var width = 500;
+    var height = 500;
+
+    var adjustWidth = d3.scale.linear()
+            .domain([0, 800])
+            .range([0, width]);
+
+    var setColor = d3.scale.linear()
+            .domain([0, 800])
+            .range(["red", "blue"]);
+
+    var axis = d3.svg.axis()
+            .scale(adjustWidth);    //scale the width of axis fit to the container
+
+    var canvas = d3.select("body")
+            .append("svg")
+            .attr("height", height)
+            .attr("width", width)
+            .append('g')  // "g" uses for grouping elements so that we can apply further styling / business logic on that.
+            .attr("transform", "translate(20, 20)");    // by using transform, we can move element anywhere in our viewport
+
+    var rectangle = canvas.selectAll("rect")
+            .data(dataArray)
+            .enter()
+            .append("rect")
+            .attr("width", function(d){
+                return adjustWidth(d);
+            })
+            .attr("height", 50)
+            .attr("fill", function(d){
+                return setColor(d);
+            })
+            .attr("y", function(d, ind){
+                return ind * 60;
+            });
+
+    canvas.append("g")
+            .call(axis)
+            .attr("transform", "translate(0,380)");
+
+</script>
+
+</body>
+</html>
