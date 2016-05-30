@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.17/d3.min.js"></script>
+</head>
+<body>
+
+<script>
+
+    var dataArray = [120, 240, 180, 330];
+
+    var canvas = d3.select("body")
+            .append("svg")
+            .attr("height", 500)
+            .attr("width", 500);
+
+    var rectangle = canvas.selectAll("rect")    // select all rect.
+            .data(dataArray)                    // bind your data with all selected element as well as elements are going to be append
+            .enter()                            // act like an empty placeholder for all upcoming elements
+            .append("rect")
+            .attr("width", function(d){
+                return d;                       // you can iterate on each value of your binded data
+            })
+            .attr("height", 50)
+            .attr("y", function(d, ind){
+                return ind * 60;                // place all rectangles after some distance otherwise all rects will append on same
+            });                                 // default place i.e from top-left
+
+</script>
+
+</body>
+</html>
