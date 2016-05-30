@@ -20,6 +20,10 @@
             .domain([0, 1000])                   // minimum and the maximum value of data array
             .range([0, width]);
 
+    var setColor = d3.scale.linear()
+            .domain([0, 1000])                   // minimum and the maximum value of data array
+            .range(["red", "blue"]);
+
     var canvas = d3.select("body")
             .append("svg")
             .attr("height", height)
@@ -33,6 +37,9 @@
                 return adjustWidth(d);          // you can iterate on each value of your binded data
             })
             .attr("height", 50)
+            .attr("fill", function(d){
+                return setColor(d);
+            })
             .attr("y", function(d, ind){
                 return ind * 60;                // place all rectangles after some distance otherwise all rects will append on same
             });                                 // default place i.e from top-left
