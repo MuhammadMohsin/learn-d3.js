@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.17/d3.min.js"></script>
+</head>
+<body>
+
+<script>
+
+    var canvas = d3.select("body")
+            .append("svg")
+            .attr("height", 500)
+            .attr("width", 800);
+
+    var circle = canvas.append("circle")
+            .attr("cx", 100)
+            .attr("cy", 100)
+            .attr("r", 5)
+            .attr("fill", "yellow");
+
+    circle.transition()
+            .delay(500)             // this will create 500ms delay in transition
+            .duration(1500)         // transition will remain 1500ms on screen
+            .attr("cx", 500)
+            .attr("r", 80)
+
+            .transition()
+            .attr("cy", 400)
+            .attr("r", 30)
+
+            .each("start", function(){          // this event fires on start of the transition
+                d3.select(this)                 // you can iterate on each element
+                        .attr("fill", "green")
+            })
+            .each("end", function(){          // this event fires on end of the transition
+                d3.select(this)
+                        .attr("fill", "red");
+            })
+
+
+</script>
+
+</body>
+</html>
