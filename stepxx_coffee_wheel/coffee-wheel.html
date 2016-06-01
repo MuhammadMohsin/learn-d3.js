@@ -2,6 +2,7 @@
 <meta charset="utf-8">
 <title>Coffee Flavour Wheel</title>
 <meta name="description" content="A visualisation of coffee flavours.">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.0.0-rc1/jquery.min.js"></script>
 <head>
     <title></title>
     <script src="http://d3js.org/d3.v3.js"></script>
@@ -63,6 +64,12 @@
                 return 5.8 - d.depth;
             });
 
+    var drag = d3.behavior.drag()
+            .origin(function(d) { return d; })
+            .on("dragstart", dragstarted)
+            .on("drag", dragged)
+            .on("dragend", dragended);
+
     var arc = d3.svg.arc()
             .startAngle(function (d) {
                 return Math.max(0, Math.min(2 * Math.PI, x(d.x)));
@@ -91,6 +98,7 @@
                 .attr("d", arc)
                 .attr("fill-rule", "evenodd")
                 .style("fill", colour)
+                .call(drag)
                 .on("click", click);
 
         var text = vis.selectAll("text").data(nodes);
@@ -200,6 +208,25 @@
     // http://www.w3.org/WAI/ER/WD-AERT/#color-contrast
     function brightness(rgb) {
         return rgb.r * .299 + rgb.g * .587 + rgb.b * .114;
+    }
+    var tempGrig;
+    function dragstarted(d) {
+        console.log(d);
+        tempGrig = $("#"+ d.id).remove()
+
+//        d3.event.sourceEvent.stopPropagation();
+//        d3.select(this).classed("dragging", true);
+    }
+
+    function dragged(d) {
+        console.log("in calss dragged");
+//        d3.select(this).attr("cx", d.x = d3.event.x).attr("cy", d.y = d3.event.y);
+    }
+
+    function dragended(d) {
+        $("#"+ d.id).append(tempGrig)
+        console.log("in calss dragended");
+//        d3.select(this).classed("dragging", false);
     }
 </script>
 <script>
