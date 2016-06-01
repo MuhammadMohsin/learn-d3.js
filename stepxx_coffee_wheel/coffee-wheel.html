@@ -212,7 +212,7 @@
     var tempGrig;
     function dragstarted(d) {
         console.log(d);
-        tempGrig = $("#"+ d.id).remove()
+        //tempGrig = $("#"+ d.id).remove()
 
 //        d3.event.sourceEvent.stopPropagation();
 //        d3.select(this).classed("dragging", true);
@@ -224,7 +224,7 @@
     }
 
     function dragended(d) {
-        $("#"+ d.id).append(tempGrig)
+        //$("#"+ d.id).append(tempGrig)
         console.log("in calss dragended");
 //        d3.select(this).classed("dragging", false);
     }
