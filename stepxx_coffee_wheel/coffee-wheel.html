@@ -47,7 +47,8 @@
             y = d3.scale.pow().exponent(1.3).domain([0, 1]).range([0, radius]),
             padding = 5,
             duration = 1000,
-            clickRef;
+            clickRef,
+            jsonDataSet;
 
     var div = d3.select("#vis");
 
@@ -86,6 +87,11 @@
             });
 
     d3.json("wheel.json", function (error, json) {
+        jsonDataSet = json;
+        generateWheel(jsonDataSet);
+    });
+
+    function generateWheel(json){
         var nodes = partition.nodes({children: json});
 
         var path = vis.selectAll("path").data(nodes);
@@ -163,8 +169,7 @@
                     });
         }
         clickRef = click;
-    });
-
+    }
     function isParentOf(p, c) {
         if (p === c) return true;
         if (p.children) {
