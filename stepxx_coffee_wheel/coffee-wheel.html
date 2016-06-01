@@ -47,7 +47,7 @@
             y = d3.scale.pow().exponent(1.3).domain([0, 1]).range([0, radius]),
             padding = 5,
             duration = 1000,
-            click;
+            clickRef;
 
     var div = d3.select("#vis");
 
@@ -131,8 +131,7 @@
                     return d.depth ? d.name.split(" ")[1] || "" : "";
                 });
 
-        click = function(d) {
-            console.log(d)
+        function click(d) {
             path.transition()
                     .duration(duration)
                     .attrTween("d", arcTween(d));
@@ -163,6 +162,7 @@
                         d3.select(this).style("visibility", isParentOf(d, e) ? null : "hidden");
                     });
         }
+        clickRef = click;
     });
 
     function isParentOf(p, c) {
@@ -206,7 +206,6 @@
         return d.children ? Math.max.apply(Math, d.children.map(maxY)) : d.y + d.dy;
     }
 
-    // http://www.w3.org/WAI/ER/WD-AERT/#color-contrast
     function brightness(rgb) {
         return rgb.r * .299 + rgb.g * .587 + rgb.b * .114;
     }
@@ -215,20 +214,19 @@
         ///console.log(d);
         //tempGrig = $("#"+ d.id).remove()
 
-//        d3.event.sourceEvent.stopPropagation();
-//        d3.select(this).classed("dragging", true);
+        //d3.event.sourceEvent.stopPropagation();
+        //d3.select(this).classed("dragging", true);
     }
 
     function dragged(d) {
         //console.log("in calss dragged");
-//        d3.select(this).attr("cx", d.x = d3.event.x).attr("cy", d.y = d3.event.y);
+        //d3.select(this).attr("cx", d.x = d3.event.x).attr("cy", d.y = d3.event.y);
     }
 
     function dragended(d) {
         //$("#"+ d.id).append(tempGrig)
-        click(d);
-        console.log("in calss dragended");
-//        d3.select(this).classed("dragging", false);
+        clickRef(d);
+        //console.log("in calss dragended");
     }
 </script>
 <script>
