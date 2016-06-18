@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.17/d3.min.js"></script>
+</head>
+<body>
+
+<script>
+
+    var width = 800;
+    var height =800;
+
+    var canvas = d3.select("body")
+            .append("svg")
+            .attr("height", height)
+            .attr("width", width);
+
+    var tree = d3.layout.tree()
+            .size([700, 700]);
+
+    var diagonal = d3.svg.diagonal();
+
+    var group = canvas.append("g")
+            .attr("transform", "translate(50, 50)");
+
+    d3.json("dataset.json", function(data){
+        var nodes = tree.nodes(data);   // return all object of json with additional "depth" and "x,y" properties.
+        var links = tree.links(nodes);  // return sources and targets of all objects
+
+        var node = group.selectAll(".node")
+                .data(nodes)
+                .enter()
+                .append("g")
+                .attr("class","node")
+                .attr("transform", function(d){return "translate(" + d.x +","+ d.y+")"});
+
+        node.append("circle")
+                .attr("r", 5)
+                .attr("fill", "steelblue");
+
+        node.append("text")
+                .text(function(d){return d.name});
+
+        group.selectAll(".link")        // create links between the nodes
+                .data(links)
+                .enter()
+                .append("path")
+                .attr("d", diagonal)
+                .attr("class", "link")
+                .attr("fill", "none")
+                .attr("stroke", "black")
+                .attr("stroke-width", "1")
+    })
+
+</script>
+
+</body>
+</html>
