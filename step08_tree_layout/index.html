@@ -9,7 +9,7 @@
 
 <script>
 
-    var width = 800;
+    var width = 1200;
     var height =800;
 
     var canvas = d3.select("body")
@@ -20,10 +20,11 @@
     var tree = d3.layout.tree()
             .size([700, 700]);
 
-    var diagonal = d3.svg.diagonal();
+    var diagonal = d3.svg.diagonal()
+            .projection(function(d){ return [d.y, d.x]});       // remove this line for the vertical view
 
     var group = canvas.append("g")
-            .attr("transform", "translate(50, 50)");
+            .attr("transform", "translate(10, 50)");
 
     d3.json("dataset.json", function(data){
         var nodes = tree.nodes(data);   // return all object of json with additional "depth" and "x,y" properties.
@@ -34,7 +35,8 @@
                 .enter()
                 .append("g")
                 .attr("class","node")
-                .attr("transform", function(d){return "translate(" + d.x +","+ d.y+")"});
+                .attr("transform", function(d){return "translate(" + d.y +","+ d.x+")"});
+//                .attr("transform", function(d){return "translate(" + d.x +","+ d.y+")"}); // for horizontal display
 
         node.append("circle")
                 .attr("r", 5)
@@ -52,6 +54,8 @@
                 .attr("fill", "none")
                 .attr("stroke", "black")
                 .attr("stroke-width", "1")
+
+
     })
 
 </script>
