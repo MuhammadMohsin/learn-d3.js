@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.17/d3.min.js"></script>
+</head>
+<body>
+
+<script>
+
+    var width = 1200;
+    var height =800;
+
+    var dataSet = [
+        {color : "steelblue", radius : 50, x : 0, y : 0},
+        {color : "orange", radius : 70, x : 0, y : 0}
+    ];
+
+    var drag = d3.behavior.drag()
+            .on("dragstart", function(){
+                console.log("drag start");
+            })
+            .on("drag", function(d){
+                console.log("dragging");
+                d.x += d3.event.dx;
+                d.y += d3.event.dy;
+                d3.select(this).attr("transform", function (d) {
+                    return "translate(" + [d.x, d.y] + ")";
+                })
+            })
+            .on("dragend", function(d){
+                console.log("drag ended");
+            });
+
+    var canvas = d3.select("body")
+            .append("svg")
+            .attr("height", height)
+            .attr("width", width);
+
+    var group = canvas.append("g")
+            .attr("transform", "translate(50, 50)");
+
+    var nodes = group.selectAll("circle")
+            .data(dataSet)
+            .enter()
+            .append("circle")
+            .attr("cx", function(d,i){
+                return 50 * (i*3);
+            })
+            .attr("cy", "100")
+            .attr("r", function(d){
+                return d.radius;
+            })
+            .attr("fill", function (d) {
+                return d.color;
+            })
+            .call(drag)
+
+</script>
+
+</body>
+</html>
